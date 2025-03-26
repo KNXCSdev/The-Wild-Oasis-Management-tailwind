@@ -59,10 +59,10 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
   transition:
     background-color 0.3s,
     border 0.3s;
+  box-sizing: border-box;
 }
 
 /* Typography & Body */
