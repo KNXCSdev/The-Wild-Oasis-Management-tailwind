@@ -1,20 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { duplicateCubin } from "../../api/apiCabins";
+import { addNewCabin } from "../../api/apiCabins";
 import toast from "react-hot-toast";
 interface Cabin {
   discount: number;
   description: string;
-  image: string;
+  image: File;
   maxCapacity: number;
   name: string;
   regularPrice: number;
 }
 
-export function useCopyCabin() {
+export function useAddCabin() {
   const queryClient = useQueryClient();
 
-  const { mutate, isLoading: isCopying } = useMutation({
-    mutationFn: (cabin: Cabin) => duplicateCubin(cabin),
+  const { mutate, isLoading: isAddingCabin } = useMutation({
+    mutationFn: (cabin: Cabin) => addNewCabin(cabin),
     onSuccess: () => {
       toast.success("Cabin successfully created");
 
@@ -24,5 +24,5 @@ export function useCopyCabin() {
     onError: ({ message }: { message: string }) => toast.error(message),
   });
 
-  return { mutate, isCopying };
+  return { mutate, isAddingCabin };
 }
