@@ -5,11 +5,15 @@ import MoonLoader from "react-spinners/MoonLoader";
 import CabinForm from "./CabinForm";
 
 export default function CabinTable() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { cabins, isLoading } = useCabins();
-  console.log(isOpen);
+  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
   if (isLoading) return <MoonLoader color="#0038ff" />;
+
+  const toggleMenu = (id: number) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
 
   return (
     <>
@@ -27,7 +31,14 @@ export default function CabinTable() {
             <div></div>
           </header>
           <section className="mx-0 my-[0.4rem]">
-            {cabins?.map((cabin) => <CabinRow cabin={cabin} key={cabin.id} />)}
+            {cabins?.map((cabin) => (
+              <CabinRow
+                cabin={cabin}
+                key={cabin.id}
+                toggleMenu={toggleMenu}
+                openMenuId={openMenuId}
+              />
+            ))}
           </section>
         </div>
         <div>
