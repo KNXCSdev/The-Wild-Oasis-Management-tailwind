@@ -7,3 +7,20 @@ export async function getCabins() {
 
   return cabins;
 }
+
+export async function deleteCabin(id: number) {
+  const { error } = await supabase.from("cabins").delete().eq("id", id);
+
+  if (error) throw new Error(error.message);
+}
+
+export async function duplicateCubin(cabin) {
+  const { data, error } = await supabase
+    .from("cabins")
+    .insert([cabin])
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}

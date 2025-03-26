@@ -3,13 +3,12 @@ import { RxCross1 } from "react-icons/rx";
 export default function CabinForm({
   showForm,
 }: {
-  showForm: (e: EventTarget) => boolean;
+  showForm: (e: boolean) => null;
 }) {
   return (
     <div
       className="fixed top-0 left-0 z-30 h-screen w-full bg-(--backdrop-color) backdrop-blur-xs transition"
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={() => {
         showForm(false);
       }}
     >

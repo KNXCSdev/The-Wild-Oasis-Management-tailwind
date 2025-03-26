@@ -1,19 +1,45 @@
+import { HiDotsVertical } from "react-icons/hi";
 import { formatCurrency } from "../../utils/helpers";
+import { useDeleteCabin } from "./useDeleteCabin";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { useCopyCabin } from "./useCopyCabin";
 
-interface CabinTypes {
-  cabin: {
-    id: number;
-    discount: number;
-    created_at: string;
-    description: string;
-    image: string;
-    maxCapacity: number;
-    name: string;
-    regularPrice: number;
-  };
+interface Cabin {
+  id: number;
+  discount: number;
+  created_at: string;
+  description: string;
+  image: string;
+  maxCapacity: number;
+  name: string;
+  regularPrice: number;
 }
 
-export default function CabinRow({ cabin }: CabinTypes) {
+interface CabinRowProps {
+  cabin: Cabin;
+  openMenuId: number | null;
+  toggleMenu: (id: number) => void;
+}
+
+export default function CabinRow({
+  cabin,
+  openMenuId,
+  toggleMenu,
+}: CabinRowProps) {
+  const { mutate: deleteCabin } = useDeleteCabin();
+  const { mutate: duplicateCabin } = useCopyCabin();
+
+  function handleDuplicate() {
+    duplicateCabin({
+      name: `Copy of ${cabin.name}`,
+      description: cabin.description,
+      image: cabin.image,
+      maxCapacity: cabin.maxCapacity,
+      regularPrice: cabin.regularPrice,
+      discount: cabin.discount,
+    });
+  }
+
   return (
     <div className="grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] px-[2.4rem] py-[1.2rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
       <img
@@ -38,11 +64,56 @@ export default function CabinRow({ cabin }: CabinTypes) {
       </span>
       <div>
         <div className="flex items-center justify-end">
-          <button className="translate-x-2 rounded-sm border-none bg-none p-1 transition">
-            .
+          <button
+            className="relative translate-x-2 cursor-pointer rounded-sm border-none bg-none p-1 transition"
+            onClick={() => toggleMenu(cabin.id)}
+          >
+            <HiDotsVertical />{" "}
+            {openMenuId === cabin.id && (
+              <CabinMenu
+                deleteCabin={() => deleteCabin(cabin.id)}
+                handleDuplicate={handleDuplicate}
+              />
+            )}
           </button>
         </div>
       </div>
     </div>
+  );
+}
+
+interface CabinMenuProps {
+  deleteCabin: () => void;
+  handleDuplicate: () => void;
+}
+
+function CabinMenu({ deleteCabin, handleDuplicate }: CabinMenuProps) {
+  return (
+    <ul className="bg-grey-0 fixed top-[20.328px] right-[2.0156px] z-10 list-none rounded-md shadow-md">
+      <li>
+        <button className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition">
+          <HiPencil className="text-grey-400 h-6 w-6 transition" />
+          <span>Edit</span>
+        </button>
+      </li>
+      <li>
+        <button
+          className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition"
+          onClick={handleDuplicate}
+        >
+          <HiSquare2Stack className="text-grey-400 h-6 w-6 transition" />
+          <span>Duplicate</span>
+        </button>
+      </li>
+      <li>
+        <button
+          className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition"
+          onClick={deleteCabin}
+        >
+          <HiTrash className="text-grey-400 h-6 w-6 transition" />
+          <span>Delete</span>
+        </button>
+      </li>
+    </ul>
   );
 }
