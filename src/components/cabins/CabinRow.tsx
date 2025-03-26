@@ -2,7 +2,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { formatCurrency } from "../../utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
-import { useCopyCabin } from "./useCopyCabin";
+import { useDuplicateCabin } from "./useDuplicateCabin";
 
 interface Cabin {
   id: number;
@@ -27,7 +27,7 @@ export default function CabinRow({
   toggleMenu,
 }: CabinRowProps) {
   const { mutate: deleteCabin } = useDeleteCabin();
-  const { mutate: duplicateCabin } = useCopyCabin();
+  const { mutate: duplicateCabin } = useDuplicateCabin();
 
   function handleDuplicate() {
     duplicateCabin({

@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import supabase, { supabaseUrl } from "./supabase";
 
 export async function getCabins() {
   const { data: cabins, error } = await supabase.from("cabins").select("*");
@@ -14,13 +14,55 @@ export async function deleteCabin(id: number) {
   if (error) throw new Error(error.message);
 }
 
-export async function duplicateCubin(cabin) {
+interface Cabin {
+  discount: number;
+  description: string;
+  image: string;
+  maxCapacity: number;
+  name: string;
+  regularPrice: number;
+}
+
+export async function duplicateCubin(cabin: Cabin) {
   const { data, error } = await supabase
     .from("cabins")
     .insert([cabin])
     .select();
 
   if (error) throw new Error(error.message);
+
+  return data;
+}
+
+interface NewCabin {
+  discount: number;
+  description: string;
+  image: File;
+  maxCapacity: number;
+  name: string;
+  regularPrice: number;
+}
+
+export async function addNewCabin(newCabin: NewCabin) {
+  const imageName = `${Math.random()}-${newCabin.image.name}`.replace("/", "");
+
+  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+
+  const { data, error } = await supabase
+    .from("cabins")
+    .insert([{ ...newCabin, image: imagePath }])
+    .select();
+
+  if (error) throw new Error(error.message);
+
+  const { error: error2 } = await supabase.storage
+    .from("cabin-images")
+    .upload(imageName, newCabin.image);
+
+  if (error2)
+    throw new Error(
+      "Cabin image could not be uploaded and the cabin was not created",
+    );
 
   return data;
 }
