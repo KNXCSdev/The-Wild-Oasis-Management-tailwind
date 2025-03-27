@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAddCabin } from "./useAddCabin";
 
 type CabinFormProps = {
-  showForm: (e: boolean) => null;
+  showForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 interface Cabin {
@@ -25,12 +25,12 @@ export default function CabinForm({ showForm }: CabinFormProps) {
     addCabin({ ...data, image }, { onSettled: () => showForm(false) });
   };
 
+  const closeForm = () => showForm(false);
+
   return (
     <div
       className="fixed top-0 left-0 z-30 h-screen w-full bg-(--backdrop-color) backdrop-blur-xs transition"
-      onClick={() => {
-        showForm(false);
-      }}
+      onClick={closeForm}
     >
       <div
         className="bg-grey-0 fixed top-1/2 left-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-(--border-radius-lg) px-[4rem] py-[3.2rem] shadow-(--shadow-lg) transition"
@@ -38,7 +38,7 @@ export default function CabinForm({ showForm }: CabinFormProps) {
       >
         <button
           className="absolute top-3 right-5 translate-x-2 rounded-md border-none bg-none p-1 transition"
-          onClick={() => showForm(false)}
+          onClick={closeForm}
         >
           <RxCross1 size={20} />
         </button>

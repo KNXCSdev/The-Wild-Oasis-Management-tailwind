@@ -28,54 +28,63 @@ export default function CabinRow({
 }: CabinRowProps) {
   const { mutate: deleteCabin } = useDeleteCabin();
   const { mutate: duplicateCabin } = useDuplicateCabin();
+  const { description, discount, id, image, maxCapacity, name, regularPrice } =
+    cabin;
 
   function handleDuplicate() {
-    duplicateCabin({
-      name: `Copy of ${cabin.name}`,
-      description: cabin.description,
-      image: cabin.image,
-      maxCapacity: cabin.maxCapacity,
-      regularPrice: cabin.regularPrice,
-      discount: cabin.discount,
-    });
+    duplicateCabin(
+      {
+        name: `Copy of ${name}`,
+        description,
+        image,
+        maxCapacity,
+        regularPrice,
+        discount,
+      },
+      { onSettled: () => toggleMenu(id) },
+    );
   }
 
   return (
     <div className="grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] px-[2.4rem] py-[1.2rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
       <img
-        src={cabin.image}
+        src={image}
         alt="Cabin"
         loading="lazy"
         className="block aspect-[3/2] w-26 -translate-x-4 scale-[1.5] object-cover object-center"
       />
-      <div className="text-grey-600 font-['Sono'] text-2xl font-semibold">
-        {cabin.name}
+      <div className="text-grey-600 font-['Sono'] text-[1.6rem] font-bold">
+        {name}
       </div>
-      <div>Fits up to {cabin.maxCapacity} guests</div>
+      <div>Fits up to {maxCapacity} guests</div>
       <div className="font-['Sono'] font-semibold">
-        {formatCurrency(cabin.regularPrice)}
+        {formatCurrency(regularPrice)}
       </div>
       <span
-        className={
-          cabin.discount ? "font-['Sono'] font-medium text-green-700" : ""
-        }
+        className={discount ? "font-['Sono'] font-medium text-green-700" : ""}
       >
-        {cabin.discount ? formatCurrency(cabin.discount) : "-"}
+        {discount ? formatCurrency(discount) : "-"}
       </span>
       <div>
-        <div className="flex items-center justify-end">
+        <div className="relative flex items-center justify-end">
           <button
-            className="relative translate-x-2 cursor-pointer rounded-sm border-none bg-none p-1 transition"
-            onClick={() => toggleMenu(cabin.id)}
+            className="relative z-20 translate-x-2 cursor-pointer rounded-sm border-none bg-none p-1 transition"
+            onClick={() => toggleMenu(id)}
           >
-            <HiDotsVertical />{" "}
-            {openMenuId === cabin.id && (
+            <HiDotsVertical />
+          </button>
+          {openMenuId === id && (
+            <>
               <CabinMenu
-                deleteCabin={() => deleteCabin(cabin.id)}
+                deleteCabin={() => deleteCabin(id)}
                 handleDuplicate={handleDuplicate}
               />
-            )}
-          </button>
+              <div
+                className="fixed top-0 left-0 z-10 h-screen w-screen bg-none"
+                onClick={() => toggleMenu(id)}
+              ></div>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -89,7 +98,7 @@ interface CabinMenuProps {
 
 function CabinMenu({ deleteCabin, handleDuplicate }: CabinMenuProps) {
   return (
-    <ul className="bg-grey-0 fixed top-[20.328px] right-[2.0156px] z-10 list-none rounded-md shadow-md">
+    <ul className="bg-grey-0 absolute top-[25px] right-[2.0156px] z-30 list-none rounded-md shadow-md">
       <li>
         <button className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition">
           <HiPencil className="text-grey-400 h-6 w-6 transition" />
