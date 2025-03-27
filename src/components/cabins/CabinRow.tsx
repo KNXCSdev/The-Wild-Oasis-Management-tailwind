@@ -46,12 +46,13 @@ export default function CabinRow({
   }
 
   return (
-    <div className="grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] px-[2.4rem] py-[1.2rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
+    <div className="grid grid-cols-[0.2fr_0.6fr_1.9fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] py-[1.2rem] pr-[2.4rem] pl-[1.2rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
+      <input type="checkbox" className="h-7 w-7 cursor-pointer" />
       <img
         src={image}
         alt="Cabin"
         loading="lazy"
-        className="block aspect-[3/2] w-26 -translate-x-4 scale-[1.5] object-cover object-center"
+        className="block aspect-[3/2] w-26 scale-[1.5] object-cover object-center"
       />
       <div className="text-grey-600 font-['Sono'] text-[1.6rem] font-bold">
         {name}
