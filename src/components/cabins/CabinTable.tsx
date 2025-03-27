@@ -3,13 +3,20 @@ import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
 import MoonLoader from "react-spinners/MoonLoader";
 import CabinForm from "./CabinForm";
+import TableHeader from "../../ui/TableHeader";
 
 export default function CabinTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { cabins, isLoading } = useCabins();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+  const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
 
-  if (isLoading) return <MoonLoader color="#0038ff" />;
+  if (isLoading)
+    return (
+      <div className="self-center">
+        <MoonLoader color="#0038ff" />
+      </div>
+    );
 
   const toggleMenu = (id: number) => {
     setOpenMenuId(openMenuId === id ? null : id);
@@ -22,14 +29,15 @@ export default function CabinTable() {
           role="table"
           className="bg-grey-0 overflow-hidden rounded-md border border-(--color-grey-200) text-2xl"
         >
-          <header className="bg-grey-50 text-grey-600 grid grid-cols-[0.6fr_1.8fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] border-b border-b-(--color-grey-100) px-[2.4rem] py-[1.6rem] font-semibold uppercase transition-none">
+          <TableHeader gridRows={"0.2fr_0.6fr_1.8fr_2.2fr_1fr_1fr_1fr"}>
+            <div></div>
             <div></div>
             <div>Cabin</div>
             <div>Capacity</div>
             <div>Price</div>
             <div>Discount</div>
             <div></div>
-          </header>
+          </TableHeader>
           <section className="mx-0 my-[0.4rem]">
             {cabins?.map((cabin) => (
               <CabinRow
@@ -47,7 +55,12 @@ export default function CabinTable() {
             onClick={() => setIsOpen(!isOpen)}
           >
             Add new cabin
-          </button>
+          </button>{" "}
+          {selectedCabins.length > 0 && (
+            <button className="text-brand-50 rounded-lg border-none bg-red-600 px-[1.6rem] py-[1.2rem] text-xl font-medium shadow-(--shadow-sm)">
+              Delete selected cabins
+            </button>
+          )}
         </div>
       </div>
       {isOpen && <CabinForm showForm={setIsOpen} />}
