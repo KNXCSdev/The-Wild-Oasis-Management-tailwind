@@ -1,6 +1,21 @@
+import MoonLoader from "react-spinners/MoonLoader";
 import TableHeader from "../../ui/TableHeader";
+import BookingsRow from "./BookingsRow";
+import { useBookings } from "./useBookings";
+import Empty from "../../ui/Empty";
 
 export default function BookingsTable() {
+  const { bookings, isLoading } = useBookings();
+
+  if (isLoading)
+    return (
+      <div className="self-center">
+        <MoonLoader color="#0038ff" />
+      </div>
+    );
+
+  if (!bookings?.length) return <Empty resource="bookings" />;
+
   return (
     <>
       <div className="flex flex-col gap-[1.6rem]">
@@ -15,7 +30,11 @@ export default function BookingsTable() {
             <div>Status</div>
             <div>Amount</div>
           </TableHeader>
-          <section className="mx-0 my-[0.4rem]"></section>
+          <section className="mx-0 my-[0.4rem]">
+            {bookings?.map((booking) => (
+              <BookingsRow booking={booking} key={booking.id} />
+            ))}
+          </section>
         </div>
       </div>
     </>
