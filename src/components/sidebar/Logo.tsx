@@ -5,7 +5,7 @@ export default function Logo() {
         src="/logo-light.png"
         alt="The Wild Oasis Logo"
         loading="lazy"
-        className="max-w-fu h-36 w-auto"
+        className="max-w-fu h-42 w-auto"
       />
     </div>
   );
