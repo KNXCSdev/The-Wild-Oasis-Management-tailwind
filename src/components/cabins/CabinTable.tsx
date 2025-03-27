@@ -4,6 +4,7 @@ import { useCabins } from "./useCabins";
 import MoonLoader from "react-spinners/MoonLoader";
 import CabinForm from "./CabinForm";
 import TableHeader from "../../ui/TableHeader";
+import Empty from "../../ui/Empty";
 
 export default function CabinTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,6 +18,8 @@ export default function CabinTable() {
         <MoonLoader color="#0038ff" />
       </div>
     );
+
+  if (!cabins?.length) return <Empty resource="cabins" />;
 
   const toggleMenu = (id: number) => {
     setOpenMenuId(openMenuId === id ? null : id);
