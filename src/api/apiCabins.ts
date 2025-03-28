@@ -1,7 +1,12 @@
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getCabins() {
-  const { data: cabins, error } = await supabase.from("cabins").select("*");
+export async function getCabins({ status }: { status: string | null }) {
+  let query = supabase.from("cabins").select("*");
+
+  if (status === "with-discount") query = query.gt("discount", 0);
+  if (status === "no-discount") query = query.eq("discount", 0);
+
+  const { data: cabins, error } = await query;
 
   if (error) throw new Error("There was an error connecting to an API");
 

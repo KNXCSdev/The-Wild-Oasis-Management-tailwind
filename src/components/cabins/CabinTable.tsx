@@ -57,7 +57,7 @@ export default function CabinTable() {
         </div>
         <div>
           <button
-            className="text-brand-50 bg-brand-600 rounded-lg border-none px-[1.6rem] py-[1.2rem] text-xl font-medium shadow-(--shadow-sm)"
+            className="text-brand-50 bg-brand-600 rounded-lg border-none px-[1.6rem] py-[1.2rem] text-2xl font-medium shadow-(--shadow-sm)"
             onClick={() => setIsOpen(!isOpen)}
           >
             Add new cabin

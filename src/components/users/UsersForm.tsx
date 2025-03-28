@@ -115,12 +115,12 @@ export default function UsersForm() {
         <div className="flex justify-end gap-3 pt-4 last:pb-0">
           <button
             onClick={() => reset()}
-            className="text-grey-600 bg-grey-0 rounded-lg border border-(--color-grey-200) px-6 py-5 text-sm font-semibold shadow-(--shadow-sm)"
+            className="text-grey-600 bg-grey-0 rounded-lg border border-(--color-grey-200) px-6 py-5 text-2xl font-medium shadow-(--shadow-sm)"
           >
             Reset
           </button>
           <button
-            className="text-brand-50 bg-brand-600 rounded-lg border border-(--color-grey-200) px-6 py-5 text-sm font-semibold shadow-(--shadow-sm)"
+            className="text-brand-50 bg-brand-600 rounded-lg border border-(--color-grey-200) px-6 py-5 text-2xl font-medium shadow-(--shadow-sm)"
             type="submit"
           >
             Create new user
