@@ -1,5 +1,6 @@
 import { HiDotsVertical } from "react-icons/hi";
-import { formatCurrency } from "../../utils/helpers";
+import { formatCurrency, formatDistanceFromNow } from "../../utils/helpers";
+import { format, isToday } from "date-fns";
 
 interface BookingRowProps {
   id: number;
@@ -18,7 +19,7 @@ interface BookingRowProps {
 
 export default function BookingsRow({ booking }: { booking: BookingRowProps }) {
   const {
-    id: bookingId,
+    // id: bookingId,
     startDate,
     endDate,
     numNights,
@@ -31,10 +32,13 @@ export default function BookingsRow({ booking }: { booking: BookingRowProps }) {
   const guest = guests ? (Array.isArray(guests) ? guests[0] : guests) : null;
   const cabin = cabins ? (Array.isArray(cabins) ? cabins[0] : cabins) : null;
 
+  const formattedDateStart = format(new Date(startDate), "MMM dd yyyy");
+  const formattedDateEnd = format(new Date(endDate), "MMM dd yyyy");
+
   return (
     <div className="grid grid-cols-[0.6fr_2fr_2.4fr_1.4fr_1fr_3.2rem] items-center gap-[2.4rem] py-[1.2rem] pr-[2.4rem] pl-[2.6rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
       <div className="text-grey-600 font-['Sono'] text-[1.7rem] font-semibold">
-        007
+        {cabin?.name}
       </div>
       <div className="flex flex-col gap-2">
         <span className="font-medium">{guest?.fullName}</span>
@@ -42,8 +46,15 @@ export default function BookingsRow({ booking }: { booking: BookingRowProps }) {
       </div>
       <div className="flex flex-col gap-2">
         {/* TODO */}
-        <span className="font-medium">DATE</span>
-        <span className="text-grey-500 text-xl">DATE</span>
+        <span className="font-medium">
+          {isToday(new Date(startDate))
+            ? "Today"
+            : formatDistanceFromNow(startDate)}{" "}
+          &rarr; {numNights} night stay
+        </span>
+        <span className="text-grey-500 text-xl">
+          {formattedDateStart + " — " + formattedDateEnd}
+        </span>
       </div>
       <div className="flex flex-col gap-2">
         <span
