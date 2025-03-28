@@ -1,11 +1,29 @@
+import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
-export async function getBookings() {
-  const { data: bookings, error } = await supabase
+interface GetBookingsProps {
+  page: number;
+}
+
+export async function getBookings({ page }: GetBookingsProps) {
+  let query = supabase
     .from("bookings")
-    .select("*,cabins(name),guests(fullName,email)");
+    .select("*,cabins(name),guests(fullName,email)", { count: "exact" });
 
-  if (error) throw new Error("There was an error connecting to an API");
+  if (page) {
+    const from = PAGE_SIZE * (page - 1);
+    const to = from + PAGE_SIZE - 1;
 
-  return bookings;
+    query = query.range(from, to);
+  }
+
+  //COUNT IS A BOOKINGS LENGTH BEFORE RANGE()
+  const { data, error, count } = await query;
+
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings could not be loaded");
+  }
+
+  return { data, count: count ?? 0 };
 }

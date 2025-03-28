@@ -10,7 +10,10 @@ export default function CabinTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { cabins, isLoading } = useCabins();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
-  const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
+  {
+    /* TODO */
+  }
+  // const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
 
   if (isLoading)
     return (
@@ -32,7 +35,7 @@ export default function CabinTable() {
           role="table"
           className="bg-grey-0 overflow-hidden rounded-md border border-(--color-grey-200) text-2xl"
         >
-          <TableHeader gridRows={"0.2fr_0.6fr_1.8fr_2.2fr_1fr_1fr_1fr"}>
+          <TableHeader gridRows="0.2fr_0.6fr_1.8fr_2.2fr_1fr_1fr_1fr">
             <div></div>
             <div></div>
             <div>Cabin</div>
@@ -59,11 +62,12 @@ export default function CabinTable() {
           >
             Add new cabin
           </button>{" "}
-          {selectedCabins.length > 0 && (
+          {/* TODO */}
+          {/* {selectedCabins.length > 0 && (
             <button className="text-brand-50 rounded-lg border-none bg-red-600 px-[1.6rem] py-[1.2rem] text-xl font-medium shadow-(--shadow-sm)">
               Delete selected cabins
             </button>
-          )}
+          )} */}
         </div>
       </div>
       {isOpen && <CabinForm showForm={setIsOpen} />}
