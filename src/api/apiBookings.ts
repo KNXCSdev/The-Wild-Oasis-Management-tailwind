@@ -3,12 +3,17 @@ import supabase from "./supabase";
 
 interface GetBookingsProps {
   page: number;
+  status: string | null;
 }
 
-export async function getBookings({ page }: GetBookingsProps) {
+export async function getBookings({ page, status }: GetBookingsProps) {
   let query = supabase
     .from("bookings")
     .select("*,cabins(name),guests(fullName,email)", { count: "exact" });
+
+  if (status) {
+    query = query.eq("status", status);
+  }
 
   if (page) {
     const from = PAGE_SIZE * (page - 1);
