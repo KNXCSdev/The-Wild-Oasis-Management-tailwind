@@ -3,6 +3,9 @@ import { formatCurrency } from "../../utils/helpers";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useDuplicateCabin } from "./useDuplicateCabin";
+import { Menu } from "../../ui/Menu";
+import { useState } from "react";
+import DeleteModal from "../../ui/DeleteModal";
 
 interface Cabin {
   id: number;
@@ -28,6 +31,7 @@ export default function CabinRow({
 }: CabinRowProps) {
   const { mutate: deleteCabin } = useDeleteCabin();
   const { mutate: duplicateCabin } = useDuplicateCabin();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { description, discount, id, image, maxCapacity, name, regularPrice } =
     cabin;
 
@@ -44,6 +48,11 @@ export default function CabinRow({
       { onSettled: () => toggleMenu(id) },
     );
   }
+
+  const handleDelete = () => {
+    deleteCabin(cabin.id);
+    setIsDeleteModalOpen(false);
+  };
 
   return (
     <div className="grid grid-cols-[0.2fr_0.6fr_1.9fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] py-[1.2rem] pr-[2.4rem] pl-[1.2rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
@@ -76,9 +85,30 @@ export default function CabinRow({
           </button>
           {openMenuId === id && (
             <>
-              <CabinMenu
-                deleteCabin={() => deleteCabin(id)}
-                handleDuplicate={handleDuplicate}
+              <Menu
+                actions={[
+                  {
+                    label: "Edit",
+                    icon: (
+                      <HiPencil className="text-grey-400 h-6 w-6 transition" />
+                    ),
+                    onClick: () => console.log("Edit clicked"),
+                  },
+                  {
+                    label: "Duplicate",
+                    icon: (
+                      <HiSquare2Stack className="text-grey-400 h-6 w-6 transition" />
+                    ),
+                    onClick: handleDuplicate,
+                  },
+                  {
+                    label: "Delete",
+                    icon: (
+                      <HiTrash className="text-grey-400 h-6 w-6 transition" />
+                    ),
+                    onClick: () => setIsDeleteModalOpen(true),
+                  },
+                ]}
               />
               <div
                 className="fixed top-0 left-0 z-10 h-screen w-screen bg-none"
@@ -87,43 +117,15 @@ export default function CabinRow({
             </>
           )}
         </div>
+        {isDeleteModalOpen && (
+          <DeleteModal
+            title="Delete Cabin"
+            message="Are you sure you want to delete this cabin permanently? This action cannot be undone."
+            onConfirm={handleDelete}
+            onCancel={() => setIsDeleteModalOpen(false)}
+          />
+        )}
       </div>
     </div>
-  );
-}
-
-interface CabinMenuProps {
-  deleteCabin: () => void;
-  handleDuplicate: () => void;
-}
-
-function CabinMenu({ deleteCabin, handleDuplicate }: CabinMenuProps) {
-  return (
-    <ul className="bg-grey-0 absolute top-[25px] right-[2.0156px] z-30 list-none rounded-md shadow-md">
-      <li>
-        <button className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition">
-          <HiPencil className="text-grey-400 h-6 w-6 transition" />
-          <span>Edit</span>
-        </button>
-      </li>
-      <li>
-        <button
-          className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition"
-          onClick={handleDuplicate}
-        >
-          <HiSquare2Stack className="text-grey-400 h-6 w-6 transition" />
-          <span>Duplicate</span>
-        </button>
-      </li>
-      <li>
-        <button
-          className="hover:bg-grey-50 flex w-full cursor-pointer items-center gap-[1.6rem] border-none bg-none px-12 py-5 text-left text-[1.4rem] transition"
-          onClick={deleteCabin}
-        >
-          <HiTrash className="text-grey-400 h-6 w-6 transition" />
-          <span>Delete</span>
-        </button>
-      </li>
-    </ul>
   );
 }

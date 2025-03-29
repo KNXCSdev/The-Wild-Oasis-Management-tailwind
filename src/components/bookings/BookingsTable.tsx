@@ -1,21 +1,22 @@
-import MoonLoader from "react-spinners/MoonLoader";
 import TableHeader from "../../ui/TableHeader";
 import BookingsRow from "./BookingsRow";
 import { useBookings } from "./useBookings";
 import Empty from "../../ui/Empty";
-import BookingsPagination from "./BookingPagination";
+import BookingsPagination from "./BookingsPagination";
+import Spinner from "../../ui/Spinner";
+import { useState } from "react";
 
 export default function BookingsTable() {
   const { bookings, isLoading, count } = useBookings();
+  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
-  if (isLoading)
-    return (
-      <div className="self-center">
-        <MoonLoader color="#0038ff" />
-      </div>
-    );
+  if (isLoading) return <Spinner />;
 
   if (!bookings?.length) return <Empty resource="bookings" />;
+
+  const toggleMenu = (id: number) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
 
   return (
     <>
@@ -33,7 +34,12 @@ export default function BookingsTable() {
           </TableHeader>
           <section className="mx-0 my-[0.4rem]">
             {bookings?.map((booking) => (
-              <BookingsRow booking={booking} key={booking.id} />
+              <BookingsRow
+                booking={booking}
+                key={booking.id}
+                openMenuId={openMenuId}
+                toggleMenu={toggleMenu}
+              />
             ))}
           </section>
           <BookingsPagination count={count} />

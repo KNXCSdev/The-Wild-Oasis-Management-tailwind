@@ -1,10 +1,11 @@
 import { useState } from "react";
 import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
-import MoonLoader from "react-spinners/MoonLoader";
+
 import CabinForm from "./CabinForm";
 import TableHeader from "../../ui/TableHeader";
 import Empty from "../../ui/Empty";
+import Spinner from "../../ui/Spinner";
 
 export default function CabinTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -15,12 +16,7 @@ export default function CabinTable() {
   }
   // const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
 
-  if (isLoading)
-    return (
-      <div className="self-center">
-        <MoonLoader color="#0038ff" />
-      </div>
-    );
+  if (isLoading) return <Spinner />;
 
   if (!cabins?.length) return <Empty resource="cabins" />;
 
