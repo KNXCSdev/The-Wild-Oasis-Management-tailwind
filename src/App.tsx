@@ -9,6 +9,8 @@ import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import AppLayout from "./ui/AppLayout";
 import { Toaster } from "react-hot-toast";
+import Booking from "./pages/Booking";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   const queryClient = new QueryClient({
@@ -30,9 +32,11 @@ function App() {
               <Route path="/home" element={<Home />} />{" "}
               <Route path="/cabins" element={<Cabins />} />
               <Route path="/bookings" element={<Bookings />} />
+              <Route path="bookings/:bookingId" element={<Booking />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/users" element={<Users />} />
             </Route>
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
         <Toaster

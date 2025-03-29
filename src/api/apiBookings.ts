@@ -1,6 +1,21 @@
 import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 
+export async function getBooking(id: number) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*,cabins(*),guests(*)")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be loaded");
+  }
+
+  return data;
+}
+
 interface GetBookingsProps {
   page: number;
   status: string | null;
@@ -40,4 +55,10 @@ export async function getBookings({ page, status, sort }: GetBookingsProps) {
   }
 
   return { data, count: count ?? 0 };
+}
+
+export async function deleteBooking(id: number) {
+  const { error } = await supabase.from("bookings").delete().eq("id", id);
+
+  if (error) throw new Error(error.message);
 }

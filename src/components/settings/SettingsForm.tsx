@@ -1,23 +1,19 @@
-import MoonLoader from "react-spinners/MoonLoader";
 import { useSettings } from "./useSettings";
 import { useUpdateSettings } from "./useUpdateSettings";
+import Spinner from "../../ui/Spinner";
 
 export default function SettingsForm() {
   const { settings, isLoading } = useSettings();
+  const { updateSetting, isUpdating } = useUpdateSettings();
+
+  if (isLoading) return <Spinner />;
+
   const {
     minBookingLength,
     maxBookingLength,
     maxGuestsPerBooking,
     breakfastPrice,
   } = settings || {};
-  const { updateSetting, isUpdating } = useUpdateSettings();
-
-  if (isLoading)
-    return (
-      <div className="self-center">
-        <MoonLoader color="#0038ff" />
-      </div>
-    );
 
   function handleUpdate(
     e: React.ChangeEvent<HTMLInputElement>,
