@@ -33,9 +33,9 @@ export default function CabinTable() {
       <div className="flex flex-col gap-[1.6rem]">
         <div
           role="table"
-          className="bg-grey-0 overflow-hidden rounded-md border border-(--color-grey-200) text-2xl"
+          className="bg-grey-0 rounded-md border border-(--color-grey-200) text-2xl"
         >
-          <TableHeader gridRows="0.2fr_0.6fr_1.8fr_2.2fr_1fr_1fr_1fr">
+          <TableHeader gridRows="grid-cols-[0.1fr_0.6fr_1.9fr_2.2fr_1fr_1fr_1fr]">
             <div></div>
             <div></div>
             <div>Cabin</div>

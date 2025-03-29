@@ -24,7 +24,7 @@ export default function BookingsTable() {
           role="table"
           className="bg-grey-0 overflow-hidden rounded-lg border border-(--color-grey-200) text-2xl"
         >
-          <TableHeader gridRows="0.6fr_2fr_2.4fr_1.4fr_1fr_3.2rem">
+          <TableHeader gridRows="grid-cols-[0.6fr_2fr_2.4fr_1.4fr_1fr_3.2rem]">
             <div>Cabin</div>
             <div>Guest</div>
             <div>Dates</div>

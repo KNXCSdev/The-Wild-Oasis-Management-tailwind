@@ -1,10 +1,24 @@
 import supabase, { supabaseUrl } from "./supabase";
 
-export async function getCabins({ status }: { status: string | null }) {
+export async function getCabins({
+  status,
+  sort,
+}: {
+  status: string | null;
+  sort: string | null;
+}) {
   let query = supabase.from("cabins").select("*");
 
   if (status === "with-discount") query = query.gt("discount", 0);
   if (status === "no-discount") query = query.eq("discount", 0);
+
+  if (sort) {
+    const [field, direction] = sort.split("-");
+
+    query = query.order(field, {
+      ascending: direction === "asc",
+    });
+  }
 
   const { data: cabins, error } = await query;
 
