@@ -23,7 +23,7 @@ export default function BookingsTable() {
       <div className="flex flex-col gap-[1.6rem]">
         <div
           role="table"
-          className="bg-grey-0 overflow-hidden rounded-lg border border-(--color-grey-200) text-2xl"
+          className="bg-grey-0 rounded-lg border border-(--color-grey-200) text-2xl"
         >
           <TableHeader gridRows="grid-cols-[0.6fr_2fr_2.4fr_1.4fr_1fr_3.2rem]">
             <div>Cabin</div>

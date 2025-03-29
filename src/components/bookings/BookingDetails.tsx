@@ -10,10 +10,12 @@ import { useState } from "react";
 
 import { useDeleteBooking } from "./useDeleteBooking";
 import PageNotFound from "../../pages/PageNotFound";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 export default function BookingDetails() {
   const navigate = useNavigate();
   const { booking, isLoading, bookingId } = useBooking();
+  const { checkout, isCheckinOut } = useCheckout();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { deleteBooking } = useDeleteBooking();
 
@@ -47,7 +49,7 @@ export default function BookingDetails() {
         </div>
         <button
           className="text-brand-600 rounded-(--border-radius-sm) border-none bg-none text-center font-medium transition"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/bookings")}
         >
           &larr; Back
         </button>
@@ -55,13 +57,20 @@ export default function BookingDetails() {
       <BookingDataBox booking={booking} />
       <div className="flex justify-end gap-4">
         {status === "unconfirmed" && (
-          <button className="bg-brand-600 text-brand-50 rounded-xl border-none px-8 py-6 text-[1.4rem] font-medium shadow-(--shadow-sm)">
+          <button
+            className="bg-brand-600 text-brand-50 rounded-xl border-none px-8 py-6 text-[1.4rem] font-medium shadow-(--shadow-sm)"
+            onClick={() => navigate(`/checkin/${bookingId}`)}
+          >
             Check in
           </button>
         )}
 
         {status === "checked-in" && (
-          <button className="bg-brand-600 text-brand-50 rounded-xl border-none px-8 py-6 text-[1.4rem] font-medium shadow-(--shadow-sm)">
+          <button
+            className="bg-brand-600 text-brand-50 rounded-xl border-none px-8 py-6 text-[1.4rem] font-medium shadow-(--shadow-sm)"
+            onClick={() => checkout(Number(bookingId))}
+            disabled={isCheckinOut}
+          >
             Check out
           </button>
         )}
