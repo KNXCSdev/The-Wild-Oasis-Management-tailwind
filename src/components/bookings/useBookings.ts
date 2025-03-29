@@ -15,7 +15,9 @@ export function useBookings() {
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
   //Sort
-  const sort = !searchParams.get("sort") ? null : searchParams.get("sort");
+  const sort = !searchParams.get("sort")
+    ? "startDate-desc"
+    : searchParams.get("sort");
 
   const { data: { data: bookings, count = 0 } = {}, isLoading } = useQuery({
     queryKey: ["bookings", status, page, sort],

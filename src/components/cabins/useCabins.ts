@@ -9,7 +9,9 @@ export function useCabins() {
     ? null
     : searchParams.get("status");
 
-  const sort = !searchParams.get("sort") ? null : searchParams.get("sort");
+  const sort = !searchParams.get("sort")
+    ? "name-asc"
+    : searchParams.get("sort");
 
   const { data: cabins, isLoading } = useQuery({
     queryKey: ["cabins", status, sort],

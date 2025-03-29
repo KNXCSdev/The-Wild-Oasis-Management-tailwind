@@ -7,6 +7,7 @@ import { useDeleteBooking } from "./useDeleteBooking";
 import { useNavigate } from "react-router";
 import DeleteModal from "../../ui/DeleteModal";
 import { useState } from "react";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 interface BookingProps {
   id: number;
@@ -37,6 +38,7 @@ export default function BookingsRow({
   const { deleteBooking } = useDeleteBooking();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const navigate = useNavigate();
+  const { checkout } = useCheckout();
 
   const {
     id: bookingId,
@@ -55,28 +57,46 @@ export default function BookingsRow({
   const formattedDateStart = format(new Date(startDate), "MMM dd yyyy");
   const formattedDateEnd = format(new Date(endDate), "MMM dd yyyy");
 
+  const getConditionalActions = () => {
+    if (status === "unconfirmed") {
+      return [
+        {
+          label: "Check in",
+          icon: (
+            <HiArrowDownOnSquare className="text-grey-400 h-6 w-6 transition" />
+          ),
+          onClick: () => navigate(`/checkin/${bookingId}`),
+        },
+      ];
+    }
+
+    if (status === "checked-in") {
+      return [
+        {
+          label: "Check out",
+          icon: (
+            <HiArrowUpOnSquare className="text-grey-400 h-6 w-6 transition" />
+          ),
+          onClick: () =>
+            checkout(bookingId, { onSettled: () => toggleMenu(bookingId) }),
+        },
+      ];
+    }
+
+    return [];
+  };
+
   const actions = [
     {
       label: "See Details",
       icon: <HiEye className="text-grey-400 h-6 w-6 transition" />,
       onClick: () => navigate(`/bookings/${bookingId}`),
     },
+    ...getConditionalActions(),
     {
       label: "Delete Booking",
       icon: <HiTrash className="text-grey-400 h-6 w-6 transition" />,
       onClick: () => setIsDeleteModalOpen(true),
-    },
-    {
-      label: "Check in",
-      icon: (
-        <HiArrowDownOnSquare className="text-grey-400 h-6 w-6 transition" />
-      ),
-      onClick: () => console.log("Cancel Booking clicked"),
-    },
-    {
-      label: "Check out",
-      icon: <HiArrowUpOnSquare className="text-grey-400 h-6 w-6 transition" />,
-      onClick: () => console.log("Cancel Booking clicked"),
     },
   ];
 

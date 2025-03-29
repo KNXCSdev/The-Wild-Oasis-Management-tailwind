@@ -62,3 +62,24 @@ export async function deleteBooking(id: number) {
 
   if (error) throw new Error(error.message);
 }
+
+interface UpdateBookingPayload {
+  status?: string;
+  isPaid?: boolean;
+}
+
+export async function updateBooking(id: number, obj: UpdateBookingPayload) {
+  const { data, error } = await supabase
+    .from("bookings")
+    .update(obj)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be updated");
+  }
+
+  return data;
+}
