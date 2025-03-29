@@ -17,18 +17,16 @@ export default function Filter({ filterField, options }: FilterTypes) {
   }
 
   return (
-    <div className="flex items-center gap-6">
-      <div className="border-grey-100 bg-grey-0 flex gap-2 rounded-lg border p-2 shadow-(--shadow-sm)">
-        {options.map((option) => (
-          <button
-            className={`hover:bg-brand-600 hover:text-brand-50 rounded-md border-none px-3 py-1 text-[1.4rem] font-medium transition ${option.value === currentFilter ? "bg-brand-600 text-brand-50" : "bg-grey-0"}`}
-            onClick={() => handleClick(option.value)}
-            key={option.label}
-          >
-            {option.label}
-          </button>
-        ))}
-      </div>
+    <div className="border-grey-100 bg-grey-0 flex gap-2 rounded-lg border p-2 shadow-(--shadow-sm)">
+      {options.map((option) => (
+        <button
+          className={`hover:bg-brand-600 hover:text-brand-50 rounded-md border-none px-3 py-1 text-[1.5rem] font-medium transition ${option.value === currentFilter ? "bg-brand-600 text-brand-50" : "bg-grey-0"}`}
+          onClick={() => handleClick(option.value)}
+          key={option.label}
+        >
+          {option.label}
+        </button>
+      ))}
     </div>
   );
 }

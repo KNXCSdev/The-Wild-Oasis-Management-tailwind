@@ -4,9 +4,10 @@ import supabase from "./supabase";
 interface GetBookingsProps {
   page: number;
   status: string | null;
+  sort: string | null;
 }
 
-export async function getBookings({ page, status }: GetBookingsProps) {
+export async function getBookings({ page, status, sort }: GetBookingsProps) {
   let query = supabase
     .from("bookings")
     .select("*,cabins(name),guests(fullName,email)", { count: "exact" });
@@ -20,6 +21,14 @@ export async function getBookings({ page, status }: GetBookingsProps) {
     const to = from + PAGE_SIZE - 1;
 
     query = query.range(from, to);
+  }
+
+  if (sort) {
+    const [field, direction] = sort.split("-");
+
+    query = query.order(field, {
+      ascending: direction === "asc",
+    });
   }
 
   //COUNT IS A BOOKINGS LENGTH BEFORE RANGE()
