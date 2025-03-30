@@ -6,6 +6,7 @@ import { useDuplicateCabin } from "./useDuplicateCabin";
 import { Menu } from "../../ui/Menu";
 import { useState } from "react";
 import DeleteModal from "../../ui/DeleteModal";
+import CabinForm from "./CabinForm";
 
 interface Cabin {
   id: number;
@@ -29,6 +30,7 @@ export default function CabinRow({
   openMenuId,
   toggleMenu,
 }: CabinRowProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { mutate: deleteCabin } = useDeleteCabin();
   const { mutate: duplicateCabin } = useDuplicateCabin();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -50,7 +52,7 @@ export default function CabinRow({
   }
 
   const handleDelete = () => {
-    deleteCabin(cabin.id);
+    deleteCabin(id);
     setIsDeleteModalOpen(false);
   };
 
@@ -92,7 +94,10 @@ export default function CabinRow({
                     icon: (
                       <HiPencil className="text-grey-400 h-6 w-6 transition" />
                     ),
-                    onClick: () => console.log("Edit clicked"),
+                    onClick: () => {
+                      setIsOpen(!isOpen);
+                      toggleMenu(id);
+                    },
                   },
                   {
                     label: "Duplicate",
@@ -125,6 +130,7 @@ export default function CabinRow({
             onCancel={() => setIsDeleteModalOpen(false)}
           />
         )}
+        {isOpen && <CabinForm showForm={setIsOpen} cabin={cabin} id={id} />}
       </div>
     </div>
   );

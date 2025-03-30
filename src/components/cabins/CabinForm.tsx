@@ -1,10 +1,7 @@
 import { RxCross1 } from "react-icons/rx";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAddCabin } from "./useAddCabin";
-
-type CabinFormProps = {
-  showForm: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { useEditCabin } from "./useEditCabin";
 
 interface Cabin {
   discount: number;
@@ -15,14 +12,37 @@ interface Cabin {
   regularPrice: number;
 }
 
-export default function CabinForm({ showForm }: CabinFormProps) {
+interface CabinEdit {
+  discount: number;
+  description: string;
+  image: string;
+  maxCapacity: number;
+  name: string;
+  regularPrice: number;
+}
+
+type CabinFormProps = {
+  showForm: React.Dispatch<React.SetStateAction<boolean>>;
+  cabin?: CabinEdit;
+  id?: number;
+};
+
+export default function CabinForm({ showForm, cabin, id }: CabinFormProps) {
   const { register, handleSubmit, getValues } = useForm<Cabin>();
   const { isAddingCabin, mutate: addCabin } = useAddCabin();
+  const { isEditingCabin, mutate: editCabin } = useEditCabin();
 
   const onSubmit: SubmitHandler<Cabin> = (data) => {
-    const image = data.image[0];
+    const image = typeof data.image === "string" ? data.image : data.image[0];
 
-    addCabin({ ...data, image }, { onSettled: () => showForm(false) });
+    const cabinId = id!;
+
+    if (cabin) {
+      editCabin(
+        { NewCabinsData: { ...data, image }, cabinId },
+        { onSettled: closeForm },
+      );
+    } else addCabin({ ...data, image }, { onSettled: closeForm });
   };
 
   const closeForm = () => showForm(false);
@@ -55,7 +75,8 @@ export default function CabinForm({ showForm }: CabinFormProps) {
                 type="text"
                 id="name"
                 className="bg-grey-0 h-full rounded-md border border-(--color-grey-300) px-3 py-3 text-[1.6rem] shadow-(--shadow-sm)"
-                disabled={isAddingCabin}
+                disabled={isAddingCabin || isEditingCabin}
+                defaultValue={cabin?.name || ""}
                 {...register("name", { required: "This field is required" })}
               />
             </div>
@@ -67,7 +88,8 @@ export default function CabinForm({ showForm }: CabinFormProps) {
                 type="number"
                 id="maxCapacity"
                 className="bg-grey-0 h-full rounded-md border border-(--color-grey-300) px-3 py-3 text-[1.6rem] shadow-(--shadow-sm)"
-                disabled={isAddingCabin}
+                disabled={isAddingCabin || isEditingCabin}
+                defaultValue={cabin?.maxCapacity || ""}
                 {...register("maxCapacity", {
                   required: "This field is required",
                   min: {
@@ -84,7 +106,8 @@ export default function CabinForm({ showForm }: CabinFormProps) {
               <input
                 type="number"
                 id="regularPrice"
-                disabled={isAddingCabin}
+                disabled={isAddingCabin || isEditingCabin}
+                defaultValue={cabin?.regularPrice || ""}
                 className="bg-grey-0 h-full rounded-md border border-(--color-grey-300) px-3 py-3 shadow-(--shadow-sm)"
                 {...register("regularPrice", {
                   required: "This field is required",
@@ -99,8 +122,8 @@ export default function CabinForm({ showForm }: CabinFormProps) {
                 type="number"
                 id="discount"
                 className="bg-grey-0 h-full rounded-md border border-(--color-grey-300) px-3 py-3 text-[1.6rem] shadow-(--shadow-sm)"
-                defaultValue={0}
-                disabled={isAddingCabin}
+                defaultValue={cabin?.discount || 0}
+                disabled={isAddingCabin || isEditingCabin}
                 {...register("discount", {
                   required: "This field is required",
                   validate: (value) =>
@@ -116,7 +139,8 @@ export default function CabinForm({ showForm }: CabinFormProps) {
               <textarea
                 id="description"
                 className="bg-grey-0 h-32 w-full rounded-md border border-(--color-grey-300) px-3 py-3 shadow-(--shadow-sm)"
-                disabled={isAddingCabin}
+                disabled={isAddingCabin || isEditingCabin}
+                defaultValue={cabin?.description || ""}
                 {...register("description", {
                   required: "This field is required",
                 })}
@@ -129,8 +153,11 @@ export default function CabinForm({ showForm }: CabinFormProps) {
               <input
                 id="image"
                 type="file"
+                accept="image/*"
                 className="file:text-brand-50 file:bg-brand-600 file:hover:bg-brand-700 mr-[1.2rem] rounded-(--border-radius-sm) text-[1.4rem] file:cursor-pointer file:rounded-lg file:border-none file:px-[1.2rem] file:py-[0.8rem] file:font-medium file:transition"
-                {...register("image", { required: "This field is required" })}
+                {...register("image", {
+                  required: cabin ? false : "This field is required",
+                })}
               />
             </div>
             <div className="flex justify-end gap-3 pt-4 last:pb-0">
@@ -144,7 +171,7 @@ export default function CabinForm({ showForm }: CabinFormProps) {
                 className="text-brand-50 bg-brand-600 rounded-lg border border-(--color-grey-200) px-6 py-5 text-2xl font-medium shadow-(--shadow-sm)"
                 type="submit"
               >
-                Create new cabin
+                {!cabin ? "Create new cabin" : "Edit cabin"}
               </button>
             </div>
           </form>
