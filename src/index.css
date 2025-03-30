@@ -55,6 +55,16 @@
   --image-opacity: 100%;
 }
 
+@layer utilities {
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Global Reset */
 *,
 *::before,

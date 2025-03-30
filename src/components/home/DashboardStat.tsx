@@ -1,4 +1,4 @@
-export default function DashboardBox({
+export default function DashboardStat({
   bg,
   text,
   icon,

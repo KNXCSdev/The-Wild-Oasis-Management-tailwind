@@ -4,7 +4,7 @@ import { useCabins } from "./useCabins";
 
 import CabinForm from "./CabinForm";
 import TableHeader from "../../ui/TableHeader";
-import Empty from "../../ui/Empty";
+
 import Spinner from "../../ui/Spinner";
 
 export default function CabinTable() {
@@ -17,8 +17,6 @@ export default function CabinTable() {
   // const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
 
   if (isLoading) return <Spinner />;
-
-  if (!cabins?.length) return <Empty resource="cabins" />;
 
   const toggleMenu = (id: number) => {
     setOpenMenuId(openMenuId === id ? null : id);
