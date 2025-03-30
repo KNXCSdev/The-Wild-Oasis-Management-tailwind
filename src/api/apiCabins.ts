@@ -74,14 +74,31 @@ export async function addNewCabin(newCabin: NewCabin) {
 
   if (error) throw new Error(error.message);
 
+  console.log(newCabin.image);
+
   const { error: error2 } = await supabase.storage
     .from("cabin-images")
     .upload(imageName, newCabin.image);
 
-  if (error2)
+  if (error2) {
+    console.error(error2);
     throw new Error(
       "Cabin image could not be uploaded and the cabin was not created",
     );
+  }
+
+  return data;
+}
+
+export async function editCabin(NewCabinsData: NewCabin, id: number) {
+  console.log(NewCabinsData, id);
+  const { data, error } = await supabase
+    .from("cabins")
+    .update([NewCabinsData])
+    .eq("id", id)
+    .select();
+
+  if (error) throw new Error(error.message);
 
   return data;
 }
