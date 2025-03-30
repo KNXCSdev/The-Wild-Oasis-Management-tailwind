@@ -36,7 +36,7 @@ export default function BookingDetails() {
         <div className="flex items-center gap-8">
           <Heading title={`Booking #${bookingId}`} />
           <span
-            className={`flex w-fit items-center rounded-full px-4 py-2 text-lg text-[1.1rem] font-semibold ${
+            className={`flex w-fit items-center rounded-full px-4 py-2 text-[1.1rem] font-semibold ${
               status === "unconfirmed"
                 ? "bg-blue-100 text-blue-700"
                 : status === "checked-in"
