@@ -6,6 +6,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 interface ChartData {
   duration: string;
@@ -72,7 +73,7 @@ function prepareData(startData: ChartData[], stays: Stay[]): ChartData[] {
 export default function DashboardChart({
   confirmedStays,
 }: DashboardChartProps) {
-  const isDarkMode = false;
+  const { isDarkMode } = useDarkMode();
 
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, confirmedStays);

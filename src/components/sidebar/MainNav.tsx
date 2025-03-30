@@ -18,7 +18,7 @@ export default function MainNav() {
         <li>
           <MainNavLink link="/home">
             <HiOutlineHome
-              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/home" ? "text-brand-600" : "text-gray-400"}`}
+              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/home" ? "text-brand-600" : "text-grey-400"}`}
             />
             <span>Home</span>
           </MainNavLink>
@@ -26,7 +26,7 @@ export default function MainNav() {
         <li>
           <MainNavLink link="/bookings">
             <HiOutlineCalendarDateRange
-              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/bookings" ? "text-brand-600" : "text-gray-400"}`}
+              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/bookings" ? "text-brand-600" : "text-grey-400"}`}
             />
             <span>Bookings</span>
           </MainNavLink>
@@ -34,7 +34,7 @@ export default function MainNav() {
         <li>
           <MainNavLink link="/cabins">
             <HiOutlineHomeModern
-              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/cabins" ? "text-brand-600" : "text-gray-400"}`}
+              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/cabins" ? "text-brand-600" : "text-grey-400"}`}
             />
             <span>Cabins</span>
           </MainNavLink>
@@ -42,7 +42,7 @@ export default function MainNav() {
         <li>
           <MainNavLink link="/users">
             <HiOutlineUserGroup
-              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/users" ? "text-brand-600" : "text-gray-400"}`}
+              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/users" ? "text-brand-600" : "text-grey-400"}`}
             />
             <span>Users</span>
           </MainNavLink>
@@ -50,7 +50,7 @@ export default function MainNav() {
         <li>
           <MainNavLink link="/settings">
             <HiOutlineCog8Tooth
-              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/settings" ? "text-brand-600" : "text-gray-400"}`}
+              className={`h-[2.6rem] w-[2.6rem] ${location.pathname === "/settings" ? "text-brand-600" : "text-grey-400"}`}
             />
             <span>Settings</span>
           </MainNavLink>

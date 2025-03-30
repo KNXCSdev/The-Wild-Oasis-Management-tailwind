@@ -8,6 +8,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 interface Booking {
   created_at: string;
@@ -30,7 +31,7 @@ export default function DashboardSalesChart({
   bookings,
   numDays,
 }: DashboardSalesChartProps) {
-  const isDarkMode = false;
+  const { isDarkMode } = useDarkMode();
 
   const allDates = eachDayOfInterval({
     start: subDays(new Date(), numDays - 1),

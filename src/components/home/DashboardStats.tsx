@@ -53,10 +53,10 @@ export default function DashboardStats({
         value={formatCurrency(Number(totalSales)) || 0}
       />
       <DashboardStat
-        bg={"bg-purple-100"}
+        bg={"bg-indigo-100"}
         icon={
           <HiOutlineCalendarDateRange
-            className={`h-[3rem] w-[3rem] text-purple-700`}
+            className={`h-[3rem] w-[3rem] text-indigo-700`}
           />
         }
         text={"Check ins"}
