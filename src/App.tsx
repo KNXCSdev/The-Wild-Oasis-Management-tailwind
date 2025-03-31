@@ -14,6 +14,8 @@ import PageNotFound from "./pages/PageNotFound";
 import Checkin from "./pages/Checkin";
 import DarkModeProvider from "./context/DarkModeContext";
 import Login from "./pages/Login";
+import ProtectedRoute from "./ui/ProtectedRoute";
+import Account from "./pages/Account";
 
 function App() {
   const queryClient = new QueryClient({
@@ -31,17 +33,24 @@ function App() {
           <ReactQueryDevtools initialIsOpen={false} />
           <BrowserRouter>
             <Routes>
-              <Route element={<AppLayout />}>
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
                 <Route index element={<Navigate replace to="home" />} />
                 <Route path="/home" element={<Home />} />{" "}
                 <Route path="/cabins" element={<Cabins />} />
                 <Route path="/bookings" element={<Bookings />} />
-                <Route path="bookings/:bookingId" element={<Booking />} />
+                <Route path="/bookings/:bookingId" element={<Booking />} />
                 <Route path="/checkin/:bookingId" element={<Checkin />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/users" element={<Users />} />
+                <Route path="/account" element={<Account />} />
               </Route>
-              <Route path="login" element={<Login />} />
+              <Route path="/login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>

@@ -5,8 +5,6 @@ import { useTodayActivity } from "./useTodayActivity";
 export default function TodayActivity() {
   const { isLoading, activities = [] } = useTodayActivity();
 
-  console.log(activities);
-
   return (
     <div className="bg-grey-0 border-grey-100 col-span-2 flex flex-col gap-[2.4rem] rounded-lg border px-[3.2rem] pt-[2.4rem] pb-[3.2rem]">
       <div className="flex items-center justify-between">

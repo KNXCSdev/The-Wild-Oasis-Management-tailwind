@@ -4,8 +4,8 @@ import { getUser } from "../../api/apiUsers";
 export function useUser() {
   const { data: user, isLoading } = useQuery({
     queryKey: ["user"],
-    queryFn: () => getUser(),
+    queryFn: getUser,
   });
 
-  return { user, isLoading };
+  return { isLoading, user, isAuthenticated: user?.role === "authenticated" };
 }
