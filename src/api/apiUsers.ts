@@ -1,7 +1,7 @@
 import supabase from "./supabase";
 
 interface UserSubmitProps {
-  fullName: string;
+  fullName?: string;
   email: string;
   password: string;
 }
@@ -21,4 +21,29 @@ export async function signUpUser(userData: UserSubmitProps) {
   if (error) throw new Error(error.message);
 
   return data;
+}
+
+export async function signInUser(userData: UserSubmitProps) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: userData.email,
+    password: userData.password,
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function signOutUser() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) throw new Error(error.message);
+}
+
+export async function getUser() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  return user;
 }

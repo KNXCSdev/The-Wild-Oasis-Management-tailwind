@@ -9,7 +9,7 @@ export default function Logo() {
         src={`/logo-${isDarkMode ? "dark" : "light"}.png`}
         alt="The Wild Oasis Logo"
         loading="lazy"
-        className="max-w-fu h-42 w-auto"
+        className="h-42 w-auto max-w-full"
       />
     </div>
   );

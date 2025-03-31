@@ -13,6 +13,7 @@ import Booking from "./pages/Booking";
 import PageNotFound from "./pages/PageNotFound";
 import Checkin from "./pages/Checkin";
 import DarkModeProvider from "./context/DarkModeContext";
+import Login from "./pages/Login";
 
 function App() {
   const queryClient = new QueryClient({
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/users" element={<Users />} />
               </Route>
+              <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </BrowserRouter>
