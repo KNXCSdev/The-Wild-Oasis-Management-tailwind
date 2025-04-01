@@ -67,7 +67,7 @@ export default function CabinTable() {
             ))}
           </section>
         </div>
-        <div>
+        <div className="flex gap-4">
           <button
             className="text-brand-50 bg-brand-600 rounded-lg border-none px-[1.6rem] py-[1.2rem] text-2xl font-medium shadow-(--shadow-sm)"
             disabled={isDeletingCabins}
