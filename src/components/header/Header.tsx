@@ -1,4 +1,4 @@
-import { HiOutlineMoon } from "react-icons/hi";
+import { HiOutlineMoon, HiOutlineSun } from "react-icons/hi";
 import { HiOutlineArrowRightOnRectangle, HiOutlineUser } from "react-icons/hi2";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { useUser } from "../authentication/useUser";
@@ -6,7 +6,7 @@ import { useLogout } from "../authentication/useLogout";
 import { useNavigate } from "react-router";
 
 export default function Header() {
-  const { toggleDarkMode } = useDarkMode();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { user } = useUser();
   const { fullName = "User", avatar = "default-user.jpg" } =
     user!.user_metadata;
@@ -37,7 +37,11 @@ export default function Header() {
             className="cursor-pointer rounded-[--border-radius-sm] border-none bg-none p-2.5 transition-[0.2s]"
             onClick={toggleDarkMode}
           >
-            <HiOutlineMoon className="text-brand-600 h-[2.2rem] w-[2.2rem]" />
+            {isDarkMode ? (
+              <HiOutlineSun className="text-brand-600 h-[2.2rem] w-[2.2rem]" />
+            ) : (
+              <HiOutlineMoon className="text-brand-600 h-[2.2rem] w-[2.2rem]" />
+            )}
           </button>
         </li>
         <li>
