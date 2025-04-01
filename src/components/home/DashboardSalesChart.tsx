@@ -38,7 +38,7 @@ export default function DashboardSalesChart({
     end: new Date(),
   });
 
-  const data: SalesData[] = allDates.map((date: string) => {
+  const data: SalesData[] = allDates.map((date) => {
     return {
       label: format(date, "MMM dd"),
       totalSales: bookings
