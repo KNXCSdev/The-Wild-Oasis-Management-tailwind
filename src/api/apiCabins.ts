@@ -33,6 +33,12 @@ export async function deleteCabin(id: number) {
   if (error) throw new Error(error.message);
 }
 
+export async function deleteMultipleCabins(ids: number[]) {
+  const { error } = await supabase.from("cabins").delete().in("id", ids);
+
+  if (error) throw new Error(error.message);
+}
+
 interface Cabin {
   discount: number;
   description: string;

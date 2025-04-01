@@ -23,12 +23,16 @@ interface CabinRowProps {
   cabin: Cabin;
   openMenuId: number | null;
   toggleMenu: (id: number) => void;
+  handleSelectCabin: (id: number) => void;
+  selectedCabins: number[];
 }
 
 export default function CabinRow({
   cabin,
   openMenuId,
   toggleMenu,
+  handleSelectCabin,
+  selectedCabins,
 }: CabinRowProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { mutate: deleteCabin } = useDeleteCabin();
@@ -58,7 +62,12 @@ export default function CabinRow({
 
   return (
     <div className="grid grid-cols-[0.2fr_0.6fr_1.9fr_2.2fr_1fr_1fr_1fr] items-center gap-[2.4rem] py-[1.2rem] pr-[2.4rem] pl-[1.2rem] transition-none not-last:border-b not-last:border-b-(--color-grey-100)">
-      <input type="checkbox" className="h-7 w-7 cursor-pointer" />
+      <input
+        type="checkbox"
+        className="h-7 w-7 cursor-pointer"
+        onChange={() => handleSelectCabin(id)}
+        checked={selectedCabins.includes(id)}
+      />
       <img
         src={image}
         alt="Cabin"

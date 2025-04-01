@@ -7,20 +7,36 @@ import TableHeader from "../../ui/TableHeader";
 
 import Spinner from "../../ui/Spinner";
 
+import { useDeleteCabins } from "./useDeleteCabins";
+
 export default function CabinTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { cabins, isLoading } = useCabins();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
-  {
-    /* TODO */
-  }
-  // const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
+  const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
+  const { mutate: deleteCabins, isDeletingCabins } = useDeleteCabins();
 
   if (isLoading) return <Spinner />;
 
   const toggleMenu = (id: number) => {
     setOpenMenuId(openMenuId === id ? null : id);
   };
+
+  console.log(selectedCabins);
+
+  function handleSelectCabin(id: number) {
+    setSelectedCabins((arr) => {
+      if (arr.includes(id)) {
+        return arr.filter((cabinId) => cabinId !== id);
+      }
+      return [...arr, id];
+    });
+  }
+
+  function deleteSelectedCabins() {
+    deleteCabins(selectedCabins);
+    setSelectedCabins([]);
+  }
 
   return (
     <>
@@ -45,6 +61,8 @@ export default function CabinTable() {
                 key={cabin.id}
                 toggleMenu={toggleMenu}
                 openMenuId={openMenuId}
+                handleSelectCabin={handleSelectCabin}
+                selectedCabins={selectedCabins}
               />
             ))}
           </section>
@@ -52,16 +70,20 @@ export default function CabinTable() {
         <div>
           <button
             className="text-brand-50 bg-brand-600 rounded-lg border-none px-[1.6rem] py-[1.2rem] text-2xl font-medium shadow-(--shadow-sm)"
+            disabled={isDeletingCabins}
             onClick={() => setIsOpen(!isOpen)}
           >
             Add new cabin
-          </button>{" "}
-          {/* TODO */}
-          {/* {selectedCabins.length > 0 && (
-            <button className="text-brand-50 rounded-lg border-none bg-red-600 px-[1.6rem] py-[1.2rem] text-xl font-medium shadow-(--shadow-sm)">
+          </button>
+          {selectedCabins.length > 0 && (
+            <button
+              className="text-brand-50 rounded-lg border-none bg-red-600 px-[1.6rem] py-[1.2rem] text-2xl font-medium shadow-(--shadow-sm)"
+              disabled={isDeletingCabins}
+              onClick={deleteSelectedCabins}
+            >
               Delete selected cabins
             </button>
-          )} */}
+          )}
         </div>
       </div>
       {isOpen && <CabinForm showForm={setIsOpen} />}
