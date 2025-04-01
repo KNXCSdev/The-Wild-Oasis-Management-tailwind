@@ -11,10 +11,12 @@ import { useDeleteCabins } from "./useDeleteCabins";
 
 export default function CabinTable() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { cabins, isLoading } = useCabins();
+  const { cabins = [], isLoading } = useCabins();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const [selectedCabins, setSelectedCabins] = useState<number[]>([]);
   const { mutate: deleteCabins, isDeletingCabins } = useDeleteCabins();
+
+  const isSelectAllChecked = selectedCabins.length === cabins.length;
 
   if (isLoading) return <Spinner />;
 
@@ -33,6 +35,14 @@ export default function CabinTable() {
     });
   }
 
+  function handleSelectAll() {
+    if (isSelectAllChecked) {
+      setSelectedCabins([]);
+    } else {
+      setSelectedCabins(cabins.map((cabin) => cabin.id));
+    }
+  }
+
   function deleteSelectedCabins() {
     deleteCabins(selectedCabins);
     setSelectedCabins([]);
@@ -46,7 +56,15 @@ export default function CabinTable() {
           className="bg-grey-0 rounded-md border border-(--color-grey-200) text-2xl"
         >
           <TableHeader gridRows="grid-cols-[0.1fr_0.6fr_1.9fr_2.2fr_1fr_1fr_1fr]">
-            <div></div>
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                className="h-6 w-6 cursor-pointer"
+                checked={isSelectAllChecked}
+                onChange={handleSelectAll}
+              />
+              &darr;
+            </div>
             <div></div>
             <div>Cabin</div>
             <div>Capacity</div>
