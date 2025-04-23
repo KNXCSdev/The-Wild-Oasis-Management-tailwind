@@ -70,7 +70,7 @@ export default function CheckinBooking() {
         </div>
         <button
           className="text-brand-600 rounded-(--border-radius-sm) border-none bg-none text-center font-medium transition"
-          onClick={() => navigate(`/bookings/:${bookingId}`)}
+          onClick={() => navigate(`/bookings/${bookingId}`)}
         >
           &larr; Back
         </button>
