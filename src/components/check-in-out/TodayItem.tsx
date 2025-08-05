@@ -15,7 +15,7 @@ function TodayItem({
   const { id, status, guests, numNights } = activity;
 
   return (
-    <div className="border-b-grey-100 first:border-t-grey-100 grid grid-cols-[9rem_2rem_1fr_7rem_9rem] items-center gap-[1.2rem] border-b px-0 py-[0.8rem] first:border-t">
+    <div className="border-b-grey-100 first:border-t-grey-100 flex flex-col items-center gap-[1.2rem] border-b px-0 py-[0.8rem] first:border-t md:grid md:grid-cols-[9rem_2rem_1fr_7rem_9rem]">
       {status === "unconfirmed" && (
         <span className="w-fit rounded-full bg-blue-100 px-[1.2rem] py-[0.4rem] text-[1.1rem] font-semibold text-blue-700 uppercase">
           Arriving
@@ -30,7 +30,7 @@ function TodayItem({
       <img
         src={guests.countryFlag}
         alt={`Flag of ${guests.country}`}
-        className="border-grey-100 block max-w-[2rem] rounded-sm border"
+        className="border-grey-100 block w-[10rem] max-w-[2rem] rounded-sm border md:w-auto"
       />
       <div className="text-[1.4rem] font-medium">{guests.fullName}</div>
       <div className="text-[1.3rem]">{numNights} nights</div>

@@ -79,7 +79,7 @@ export default function DashboardChart({
   const data = prepareData(startData, confirmedStays);
 
   return (
-    <div className="bg-grey-0 border-grey-100 col-start-3 col-end-5 rounded-lg border px-[3.2rem] py-[2.4rem]">
+    <div className="bg-grey-0 border-grey-100 col-span-1 rounded-lg border px-[3.2rem] py-[2.4rem] md:col-span-2">
       <h2 className="mb-[1.6rem] text-[2rem] leading-[1.4] font-semibold">
         Stay duration summary
       </h2>
@@ -107,7 +107,7 @@ export default function DashboardChart({
           <Tooltip />
           <Legend
             verticalAlign="middle"
-            align="right"
+            align="center"
             width={200}
             layout="vertical"
             iconSize={15}

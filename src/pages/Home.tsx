@@ -5,7 +5,7 @@ import Heading from "../ui/Heading";
 export default function Home() {
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-center justify-between lg:flex-row lg:justify-between">
         <Heading title="Dashboard" />
         <Filter
           filterField="last"
